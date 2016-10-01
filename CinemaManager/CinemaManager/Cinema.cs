@@ -30,7 +30,10 @@ namespace CinemaManager
 
         public bool Validate()
         {
-            return Validation.isGreaterThan(CloseTime, OpenTime, "Open time cannot be after close time");
+            Validation.isGreaterThan(CloseTime, OpenTime, "Open time cannot be after close time");
+            Validation.isNotNull(Theaters, Utility.GetPropertyName(()=>this.Theaters));
+
+            return true;//Validation throws errors, doesn't return false;
         }
 
     }
