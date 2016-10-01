@@ -16,13 +16,13 @@ namespace CinemaManager
             CloseTime = new TimeSpan(22, 00, 00);
         }
 
-        private int CinemaId { get;  set; }
+        public int CinemaId { get;  set; }
 
         public string Name { get; set; }
 
         public string Address { get; set; }
 
-        public virtual ICollection<Theater> Theaters { get; private set; }
+        public virtual ICollection<Theater> Theaters { get; set; }
 
         public TimeSpan OpenTime { get; set;}
 

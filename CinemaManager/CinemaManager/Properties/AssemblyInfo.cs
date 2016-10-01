@@ -34,3 +34,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+internal static class MissingDllHack
+{
+    private static System.Data.Entity.SqlServer.SqlProviderServices instance = 
+        System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+}
