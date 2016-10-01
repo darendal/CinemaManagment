@@ -11,7 +11,28 @@ namespace CinemaManagerTests
     public class CinemaManagerTests
     {
 
-        Cinema goodCinema = new Cinema();
+        Cinema goodCinema = new Cinema()
+        {
+            Name = "UnitTestCinema",
+            Address = "345 Fake Street",
+            CloseTime = new TimeSpan(23, 59, 59),
+            OpenTime = new TimeSpan(0, 0, 0),
+            Theaters = new List<Theater>()
+        };
+
+        Cinema goodCinemaWithTheaters = new Cinema()
+        {
+            Name = "UnitTestCinema",
+            Address = "345 Fake Street",
+            CloseTime = new TimeSpan(23, 59, 59),
+            OpenTime = new TimeSpan(0, 0, 0),
+            Theaters = new List<Theater>()
+            {
+                new Theater() {TheaterNumber = 1 },
+                new Theater() {TheaterNumber = 2 },
+                new Theater() {TheaterNumber = 3 }
+            }
+        };
 
         [TestMethod]
         public void CinemaValidationTest()
@@ -32,6 +53,36 @@ namespace CinemaManagerTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CinemaNullTheaters()
+        {
+            var cinema = new Cinema();
+
+            cinema.Validate();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CinemaDuplicateTheaterNumber()
+        {
+            var cinema = new Cinema()
+            {
+                Theaters = new List<Theater>()
+                {
+                    new Theater() {TheaterNumber = 0 },
+                    new Theater() {TheaterNumber = 1 },
+                    new Theater() {TheaterNumber = 1 },
+                    new Theater() {TheaterNumber = 2 },
+                    new Theater() {TheaterNumber = 3 },
+                }
+            };
+
+            cinema.Validate();
+
+        }
+
+
+        [TestMethod]
         public void GetCinemas()
         {
             using (var context = new CinemaContext())
@@ -43,13 +94,7 @@ namespace CinemaManagerTests
         [TestMethod]
         public void AddCinema()
         {
-            var cinema = new Cinema()
-            {
-                Name = "UnitTestCinema",
-                Address = "345 Fake Street",
-                CloseTime = new TimeSpan(23,59, 59),
-                OpenTime = new TimeSpan(0, 0, 0)
-            };
+            var cinema = goodCinema;
 
             using (var context = new CinemaContext())
             {
@@ -70,17 +115,7 @@ namespace CinemaManagerTests
         [TestMethod]
         public void AddCinemaWithTheaters()
         {
-            var cinema = new Cinema()
-            {
-                Name = "UnitTestCinema",
-                Address = "test_address",
-                Theaters = new List<Theater>()
-                {
-                    new Theater(),
-                    new Theater(),
-                    new Theater()
-                }
-            };
+            var cinema = goodCinemaWithTheaters;
 
             using (var context = new CinemaContext())
             {
@@ -105,13 +140,7 @@ namespace CinemaManagerTests
         [TestMethod]
         public void DeleteCinema()
         {
-            var cinema = new Cinema()
-            {
-                Name = "UnitTestCinema",
-                Address = "345 Fake Street",
-                CloseTime = new TimeSpan(23, 59, 59),
-                OpenTime = new TimeSpan(0, 0, 0)
-            };
+            var cinema = goodCinema;
 
             using (var context = new CinemaContext())
             {
@@ -121,11 +150,35 @@ namespace CinemaManagerTests
 
                 Assert.IsNotNull(context.Cinemas.FirstOrDefault(c => c.CinemaId == cinema.CinemaId));
 
-                 context.Cinemas.Remove(cinema);
+                context.Cinemas.Remove(cinema);
 
                 context.SaveChanges();
 
                 Assert.IsNull(context.Cinemas.FirstOrDefault(c => c.CinemaId == cinema.CinemaId));
+            }
+        }
+
+        [TestMethod]
+        public void DeleteCinemaWithTheaters()
+        {
+            var cinema = goodCinemaWithTheaters;
+
+            using (var context = new CinemaContext())
+            {
+                context.Cinemas.Add(cinema);
+
+                context.SaveChanges();
+
+                Assert.IsNotNull(context.Cinemas.FirstOrDefault(c => c.CinemaId == cinema.CinemaId));
+
+                context.Cinemas.Remove(cinema);
+                context.SaveChanges();
+
+                Assert.IsNull(context.Cinemas.FirstOrDefault(c => c.CinemaId == cinema.CinemaId));
+
+                cinema.Theaters.ToList().ForEach(t => 
+                    Assert.IsNull(context.Theaters.FirstOrDefault(db => t.TheaterId == db.TheaterId))
+                );
             }
         }
 

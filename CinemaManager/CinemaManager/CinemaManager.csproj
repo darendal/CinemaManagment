@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cinema.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="DataAccess\CinemaInitializer.cs" />
     <Compile Include="DataAccess\CinemaContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
