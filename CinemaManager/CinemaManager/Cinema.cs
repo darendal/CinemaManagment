@@ -22,7 +22,7 @@ namespace CinemaManager
 
         public string Address { get; set; }
 
-        public List<Theater> Theaters { get; private set; }
+        public virtual ICollection<Theater> Theaters { get; private set; }
 
         public TimeSpan OpenTime { get; set;}
 
