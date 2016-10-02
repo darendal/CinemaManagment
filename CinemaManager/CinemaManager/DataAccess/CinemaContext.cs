@@ -24,6 +24,10 @@ namespace CinemaManager.DataAccess
 
         public virtual DbSet<Theater> Theaters { get; set; }
 
+        public virtual DbSet<Movie> Movies { get; set; }
+
+        public virtual DbSet<MovieLease> MovieLeases { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
