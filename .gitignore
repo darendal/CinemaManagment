@@ -3,3 +3,6 @@
 ################################################################################
 
 /CinemaManager/CinemaManager/obj/Debug
+/CinemaManager/CinemaManagerTests/obj/Debug
+/CinemaManager/packages
+/CinemaManager/Utilities/obj/Debug

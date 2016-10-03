@@ -28,6 +28,7 @@ namespace CinemaManager
 
         public TimeSpan CloseTime { get; set; }
 
+
         public bool Validate()
         {
             Validation.isGreaterThanOrEqual(OpenTime, Constants.MIN_OPEN_TIME);
