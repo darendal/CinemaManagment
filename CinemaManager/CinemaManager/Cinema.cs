@@ -27,6 +27,7 @@ namespace CinemaManager
         public TimeSpan OpenTime { get; set;}
 
         public TimeSpan CloseTime { get; set; }
+        public virtual List<MovieLease> MovieLeases { get; set; }
 
 
         public bool Validate()
@@ -44,6 +45,7 @@ namespace CinemaManager
 
             return true;//Validation throws errors, doesn't return false;
         }
+
 
     }
 }
