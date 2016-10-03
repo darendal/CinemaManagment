@@ -64,6 +64,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataAccess\CinemaInitializer.cs" />
     <Compile Include="DataAccess\CinemaContext.cs" />
+    <Compile Include="Employee.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="MovieLease.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,7 +81,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

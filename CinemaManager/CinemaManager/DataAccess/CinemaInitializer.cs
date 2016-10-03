@@ -15,7 +15,7 @@ namespace CinemaManager.DataAccess
                 new Movie()
                 {
                     Title = "It Came From Space!",
-                    Rating = Rating.PG13,
+                    Rating = Rating.PG,
                 },
 
                 new Movie()
@@ -50,9 +50,9 @@ namespace CinemaManager.DataAccess
 
             var theaters = new List<Theater>()
             {
-                new Theater() {CinemaId=1 },
-                new Theater() {CinemaId=2 },
-                new Theater() {CinemaId=3 }
+                new Theater() {CinemaId=1,TheaterNumber=1 },
+                new Theater() {CinemaId=1,TheaterNumber=2 },
+                new Theater() {CinemaId=1,TheaterNumber=3 }
             };
 
             theaters.ForEach(t => context.Theaters.Add(t));

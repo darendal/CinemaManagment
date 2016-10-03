@@ -29,6 +29,8 @@ namespace CinemaManager
         public TimeSpan CloseTime { get; set; }
         public virtual List<MovieLease> MovieLeases { get; set; }
 
+        public virtual List<Employee> Employees { get; set; }
+
 
         public bool Validate()
         {

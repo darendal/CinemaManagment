@@ -18,6 +18,11 @@ namespace CinemaManager
         [Index("CinemaIdAndTheaterNumber",IsUnique =true,Order =1)]
         public int TheaterNumber { get; set; }
 
+        /// <summary>
+        /// Maximum # of seats in the theater
+        /// </summary>
+        public int MaximumCapacity { get; set; }
+
         public virtual Cinema Cinema { get; set; }
     }
 }
