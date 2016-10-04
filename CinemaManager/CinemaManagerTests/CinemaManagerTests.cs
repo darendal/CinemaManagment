@@ -4,6 +4,11 @@ using CinemaManager;
 using CinemaManager.DataAccess;
 using System.Linq;
 using System.Collections.Generic;
+using CinemaManagerWeb.Controllers;
+using CinemaManagerWeb.Models;
+using System.Threading.Tasks;
+using CinemaManagerWeb.Models.DTO;
+using System.Web.Http.Results;
 
 namespace CinemaManagerTests
 {
@@ -183,5 +188,121 @@ namespace CinemaManagerTests
         }
 
 
+    }
+
+    [TestClass]
+    public class CinemaManagerWebTests
+    {
+        private CinemasController Cinemas =  new CinemasController();
+        public CinemaManagerWebTests()
+        {
+            AutomapperConfiguration.Configure();
+        }
+
+        [TestMethod]
+        public void TestAutomapper()
+        {
+            AutomapperConfiguration.Test();
+        }
+
+        [TestMethod]
+        public async Task GetCinemas()
+        {
+            IList<CinemaDTO> allCinemas = await Cinemas.GetCinemas();
+
+            Assert.IsNotNull(allCinemas);
+        }
+        [TestMethod]
+        public async Task GetCinema()
+        {
+            IList<CinemaDTO> allCinemas = await Cinemas.GetCinemas();
+
+            if(allCinemas.Count == 0)
+            {
+                Assert.Inconclusive("No Cinemas found in database.");
+            }
+            else
+            {
+                CinemaDTO testCinema = allCinemas.First();
+
+                var fromController = await Cinemas.GetCinema(testCinema.CinemaId) as OkNegotiatedContentResult<CinemaDTO>;
+
+                Assert.IsNotNull(fromController);
+                Assert.AreEqual(testCinema.CinemaId, fromController.Content.CinemaId);
+
+            }
+
+        }
+
+        [TestMethod]
+        public async Task GetCinemaNotFound()
+        {
+            var result = await Cinemas.GetCinema(-1);
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public async Task PutCinema()
+        {
+            IList<CinemaDTO> allCinemas = await Cinemas.GetCinemas();
+
+            if (allCinemas.Count ==0)
+            {
+                Assert.Inconclusive();
+            }
+            else
+            {
+                CinemaDTO testCinema = allCinemas.First();
+                int cinemaId = testCinema.CinemaId;
+
+                testCinema.Name = "put_test";
+                testCinema.Address = "put_test_address";
+
+                StatusCodeResult result = await Cinemas.PutCinema(testCinema) as StatusCodeResult;
+                Assert.AreEqual(result.StatusCode, System.Net.HttpStatusCode.NoContent);
+
+                CinemaDTO cinemaResult = 
+                    (await Cinemas.GetCinema(cinemaId) as OkNegotiatedContentResult<CinemaDTO>).Content;
+
+                Assert.AreEqual(testCinema.Name, cinemaResult.Name);
+
+            }
+        }
+
+        [TestMethod]
+        public async Task PutInvalidCinema()
+        {
+            CinemaDTO BadCinema = new CinemaDTO()
+            {
+                Name = "bad_cinema",
+                Address = "333 Bad Address",
+                OpenTime = new TimeSpan(12, 0, 0),
+                CloseTime = new TimeSpan(0, 0, 0)
+            };
+
+            var result = await Cinemas.PutCinema(BadCinema) as BadRequestErrorMessageResult;
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public async Task PostCinema()
+        {
+            var c = new CinemaDTO()
+            {
+                Name = "test_post",
+                Address = "test_address",
+                OpenTime = new TimeSpan(1, 0, 0),
+                CloseTime = new TimeSpan(5, 0, 0)
+            };
+
+            var result = (await Cinemas.PostCinema(c) as CreatedAtRouteNegotiatedContentResult<CinemaDTO>)?.Content;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(c.Name, result.Name);
+            Assert.AreEqual(c.Address, result.Address);
+            Assert.AreEqual(c.OpenTime, result.OpenTime);
+            Assert.AreEqual(c.CloseTime, result.CloseTime);
+        }
     }
 }

@@ -37,13 +37,15 @@ namespace CinemaManager
             Validation.isGreaterThanOrEqual(OpenTime, Constants.MIN_OPEN_TIME);
             Validation.isLessThanOrEqual(CloseTime, Constants.MAX_CLOSE_TIME);
             Validation.isGreaterThan(CloseTime, OpenTime, "Open time cannot be after close time");
-            Validation.isNotNull(Theaters, Utility.GetPropertyName(()=>Theaters));
-
-            var h = new HashSet<int>();
-            if(Theaters.Any( item => !h.Add(item.TheaterNumber)))
+           if(Theaters != null)
             {
-                throw new ArgumentException("Theaters in a cinema cannot have duplicate Theater Numbers");
+                var h = new HashSet<int>();
+                if(Theaters.Any( item => !h.Add(item.TheaterNumber)))
+                {
+                    throw new ArgumentException("Theaters in a cinema cannot have duplicate Theater Numbers");
+                }
             }
+
 
             return true;//Validation throws errors, doesn't return false;
         }

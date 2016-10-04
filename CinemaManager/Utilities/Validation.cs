@@ -34,7 +34,7 @@ namespace Utilities
 
         public static bool isLessThanOrEqual<T>(T shouldBeLesser, T shouldBeGreater)
         {
-            if (GenericCompare(shouldBeLesser, shouldBeGreater) >= 0)
+            if (GenericCompare(shouldBeLesser, shouldBeGreater) <= 0)
             {
                 return true;
             }

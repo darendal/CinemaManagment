@@ -6,11 +6,13 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using CinemaManager;
 using CinemaManager.DataAccess;
+using CinemaManagerWeb.Models.DTO;
+using AutoMapper.QueryableExtensions;
+using System.Threading.Tasks;
 
 namespace CinemaManagerWeb.Controllers
 {
@@ -19,17 +21,16 @@ namespace CinemaManagerWeb.Controllers
         private CinemaContext db = new CinemaContext();
 
         // GET: api/Cinemas
-        public IQueryable<Cinema> AllCinemas()
+        public async Task<IList<CinemaDTO>> GetCinemas()
         {
-            return db.Cinemas;
+            return await db.Cinemas.ProjectTo<CinemaDTO>().ToListAsync();
         }
 
         // GET: api/Cinemas/5
-        [ResponseType(typeof(Cinema))]
-        [AcceptVerbs("GET")]
-        public async Task<IHttpActionResult> Cinema(int id)
+        [ResponseType(typeof(CinemaDTO))]
+        public async Task<IHttpActionResult> GetCinema(int id)
         {
-            Cinema cinema = await db.Cinemas.FindAsync(id);
+            CinemaDTO cinema = await db.Cinemas.ProjectTo<CinemaDTO>().SingleOrDefaultAsync(c=>c.CinemaId == id);
             if (cinema == null)
             {
                 return NotFound();
@@ -40,27 +41,33 @@ namespace CinemaManagerWeb.Controllers
 
         // PUT: api/Cinemas/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCinema(int id, Cinema cinema)
+        public async Task<IHttpActionResult> PutCinema(CinemaDTO cinema)
         {
+            int id = cinema.CinemaId;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cinema.CinemaId)
+            Cinema CinemaEntity = AutoMapper.Mapper.Map<Cinema>(cinema);
+            try
             {
-                return BadRequest();
+                CinemaEntity.Validate();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            db.Entry(cinema).State = EntityState.Modified;
+            db.Entry(CinemaEntity).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+               await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CinemaExists(id))
+                if (! await CinemaExists(id))
                 {
                     return NotFound();
                 }
@@ -74,32 +81,43 @@ namespace CinemaManagerWeb.Controllers
         }
 
         // POST: api/Cinemas
-        [ResponseType(typeof(Cinema))]
-        public async Task<IHttpActionResult> PostCinema(Cinema cinema)
+        [ResponseType(typeof(CinemaDTO))]
+        public async Task<IHttpActionResult> PostCinema(CinemaDTO cinema)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Cinemas.Add(cinema);
+            Cinema CinemaEntity = AutoMapper.Mapper.Map<Cinema>(cinema);
+           
+            try
+            {
+                CinemaEntity.Validate();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            db.Cinemas.Add(CinemaEntity);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = cinema.CinemaId }, cinema);
         }
 
         // DELETE: api/Cinemas/5
-        [ResponseType(typeof(Cinema))]
-        public async Task<IHttpActionResult> DeleteCinema(int id)
+        [ResponseType(typeof(CinemaDTO))]
+        public IHttpActionResult DeleteCinema(int id)
         {
-            Cinema cinema = await db.Cinemas.FindAsync(id);
+            Cinema cinema = db.Cinemas.Find(id);
             if (cinema == null)
             {
                 return NotFound();
             }
 
             db.Cinemas.Remove(cinema);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(cinema);
         }
@@ -113,9 +131,9 @@ namespace CinemaManagerWeb.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CinemaExists(int id)
+        private async Task<bool> CinemaExists(int id)
         {
-            return db.Cinemas.Count(e => e.CinemaId == id) > 0;
+            return  await db.Cinemas.AnyAsync(e => e.CinemaId == id);
         }
     }
 }
