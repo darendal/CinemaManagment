@@ -64,9 +64,11 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataAccess\CinemaInitializer.cs" />
     <Compile Include="DataAccess\CinemaContext.cs" />
+    <Compile Include="Employee.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="MovieLease.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Showing.cs" />
     <Compile Include="Theater.cs" />
   </ItemGroup>
   <ItemGroup>
