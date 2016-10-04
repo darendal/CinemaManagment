@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/angular-material")
+</head>
+<body ng-app="YourApp">
+    
+       
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer></footer>
+    </div>
+   
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-aria")
+    @Scripts.Render("~/bundles/angular-animate")
+    @Scripts.Render("~/bundles/angular-material")
+    <script>
+
+        // Include app dependency on ngMaterial
+
+        angular.module( 'YourApp', [ 'ngMaterial' ] )
+            .controller("YourController", YourController);
+
+        function YourController($scope)
+        {
+
+        }
+
+    </script>
+
+</body>
+</html>
