@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="Cinema">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -8,36 +8,27 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/angular-material")
 </head>
-<body ng-app="contentDemo1">
-
-    <div ng-controller="AppCtrl" ng-cloak>
-        <md-content class="md-padding">
-            <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-                <md-nav-item md-nav-click="goto('page1')" name="page1">Page One</md-nav-item>
-                <md-nav-item md-nav-click="goto('page2')" name="page2">Page Two</md-nav-item>
-                <md-nav-item md-nav-click="goto('page3')" name="page3">Page Three</md-nav-item>
-                <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
-                <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
-                <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
-                -->
-            </md-nav-bar>
-            <div class="ext-content">
-                External content for `<span>{{currentNavItem}}</span>`
-            </div>
-        </md-content>
-
-        @Scripts.Render("~/bundles/angular")
-        @Scripts.Render("~/bundles/angular-aria")
-        @Scripts.Render("~/bundles/angular-animate")
-        @Scripts.Render("~/bundles/angular-material")
-        <script>
-
-            angular.module('contentDemo1', ['ngMaterial'])
-
-            .controller('AppCtrl', function ($scope) {
-
-            });
-        </script>
-
+<body>
+    <div ng-controller="demo" ng-cloak layout-gt-sm="row" layout="column">
+        <div flex-gt-sm="50" flex>
+            <md-toolbar layout="row" class="md-hue-3">
+                <div class="md-toolbar-tools">
+                    <span>Cinemas</span>
+                </div>
+            </md-toolbar>
+            <md-list>
+                <md-list-item ng-repeat="cinema in cinemas" class="noright">
+                    <p>{{cinema.Name}}</p>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-aria")
+    @Scripts.Render("~/bundles/angular-animate")
+    @Scripts.Render("~/bundles/angular-material")
+    @Scripts.Render("~/bundles/angular-resource")
+        <script src="~/Scripts/CinemaModule.js"></script>
 </body>
+
 </html>

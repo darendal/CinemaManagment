@@ -26,6 +26,7 @@ namespace CinemaManagerWeb
             bundles.Add(new ScriptBundle("~/bundles/angular-aria").Include("~/Scripts/angular-aria/angular-aria.*"));
             bundles.Add(new ScriptBundle("~/bundles/angular-material").Include(
                 "~/Scripts/angular-material/angular-material.*"));
+            bundles.Add(new ScriptBundle("~/bundles/angular-resource").Include("~/Scripts/angular-resource.*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
