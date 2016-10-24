@@ -41,9 +41,8 @@ namespace CinemaManagerWeb.Controllers
 
         // PUT: api/Cinemas/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCinema(CinemaDTO cinema)
+        public async Task<IHttpActionResult> PutCinema(int id,CinemaDTO cinema)
         {
-            int id = cinema.CinemaId;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -76,6 +75,10 @@ namespace CinemaManagerWeb.Controllers
                     throw;
                 }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -103,6 +106,8 @@ namespace CinemaManagerWeb.Controllers
             db.Cinemas.Add(CinemaEntity);
             await db.SaveChangesAsync();
 
+            cinema = AutoMapper.Mapper.Map<CinemaDTO>(CinemaEntity);
+
             return CreatedAtRoute("DefaultApi", new { id = cinema.CinemaId }, cinema);
         }
 
@@ -119,7 +124,7 @@ namespace CinemaManagerWeb.Controllers
             db.Cinemas.Remove(cinema);
             db.SaveChanges();
 
-            return Ok(cinema);
+            return Ok(AutoMapper.Mapper.Map<CinemaDTO>(cinema));
         }
 
         protected override void Dispose(bool disposing)
