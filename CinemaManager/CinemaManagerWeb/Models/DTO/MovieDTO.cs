@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace CinemaManager
+namespace CinemaManagerWeb.Models.DTO
 {
-    public class Movie
+    public class MovieDTO
     {
         public int MovieId { get; set; }
         public string Title { get; set; }
-        public string Year { get; set; }
+        public int Year { get; set; }
         public string Rated { get; set; }
         public string Runtime { get; set; }
         public string Genre { get; set; }
@@ -20,7 +19,5 @@ namespace CinemaManager
         public string Metascore { get; set; }
         public string ImdbRating { get; set; }
         public string ImdbID { get; set; }
-
     }
-    
 }

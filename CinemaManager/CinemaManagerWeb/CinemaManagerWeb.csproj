@@ -80,6 +80,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -229,6 +230,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CinemasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -237,10 +239,13 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AutomapperConfiguration.cs" />
     <Compile Include="Models\DTO\CinemaDTO.cs" />
+    <Compile Include="Models\DTO\MovieDTO.cs" />
     <Compile Include="Models\DTO\TheaterDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\CacheProvider.cs" />
+    <Compile Include="Providers\MoviesProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

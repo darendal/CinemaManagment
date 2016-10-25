@@ -10,24 +10,6 @@ namespace CinemaManager.DataAccess
     {
         protected override void Seed(CinemaContext context)
         {
-            var movies = new List<Movie>()
-            {
-                new Movie()
-                {
-                    Title = "It Came From Space!",
-                    Rating = Rating.PG,
-                },
-
-                new Movie()
-                {
-                    Title = "It Back Came From Space! The Re-Spacening",
-                    Rating = Rating.PG13,
-                }
-
-            };
-            movies.ForEach(m => context.Movies.Add(m));
-            context.SaveChanges();
-
             var cinemas = new List<Cinema>()
             {
                 new Cinema() {Name="Cinema1", Address="123 Fake Street" }

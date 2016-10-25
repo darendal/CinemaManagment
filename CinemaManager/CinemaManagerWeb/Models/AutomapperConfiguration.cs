@@ -17,6 +17,8 @@ namespace CinemaManagerWeb.Models
 
                 cfg.CreateMap<Theater, TheaterDTO>().ReverseMap();
 
+                cfg.CreateMap<Movie, MovieDTO>().ReverseMap();
+
             });
         }
 

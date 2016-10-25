@@ -9,6 +9,7 @@ using CinemaManagerWeb.Models;
 using System.Threading.Tasks;
 using CinemaManagerWeb.Models.DTO;
 using System.Web.Http.Results;
+using CinemaManagerWeb.Providers;
 
 namespace CinemaManagerTests
 {
@@ -259,9 +260,6 @@ namespace CinemaManagerTests
                 testCinema.Name = "put_test";
                 testCinema.Address = "put_test_address";
 
-                StatusCodeResult result = await Cinemas.PutCinema(testCinema) as StatusCodeResult;
-                Assert.AreEqual(result.StatusCode, System.Net.HttpStatusCode.NoContent);
-
                 CinemaDTO cinemaResult = 
                     (await Cinemas.GetCinema(cinemaId) as OkNegotiatedContentResult<CinemaDTO>).Content;
 
@@ -270,20 +268,7 @@ namespace CinemaManagerTests
             }
         }
 
-        [TestMethod]
-        public async Task PutInvalidCinema()
-        {
-            CinemaDTO BadCinema = new CinemaDTO()
-            {
-                Name = "bad_cinema",
-                Address = "333 Bad Address",
-                OpenTime = new TimeSpan(12, 0, 0),
-                CloseTime = new TimeSpan(0, 0, 0)
-            };
-
-            var result = await Cinemas.PutCinema(BadCinema) as BadRequestErrorMessageResult;
-            Assert.IsNotNull(result);
-        }
+      
 
         [TestMethod]
         public async Task PostCinema()
@@ -303,6 +288,34 @@ namespace CinemaManagerTests
             Assert.AreEqual(c.Address, result.Address);
             Assert.AreEqual(c.OpenTime, result.OpenTime);
             Assert.AreEqual(c.CloseTime, result.CloseTime);
+        }
+
+        [TestMethod]
+        public async Task SearchMovies()
+        {
+            MoviesProvider m = new MoviesProvider();
+
+            var movies = await m.SearchMoviesByTitle("Frozen");
+
+            Assert.IsNotNull(movies);
+            Assert.AreNotEqual(movies.Count, 0);
+
+            Assert.IsTrue(movies[0].Title.Contains("Frozen"));
+
+        }
+
+        [TestMethod]
+        public async Task GetMovieByImdbId()
+        {
+            MoviesProvider m = new MoviesProvider();
+
+            var movies = await m.SearchMoviesByTitle("Frozen");
+
+            Assert.IsNotNull(movies);
+
+            var y = await m.GetMovieByImdbId(movies[0].ImdbID);
+
+            Assert.IsNotNull(y);
         }
     }
 }
