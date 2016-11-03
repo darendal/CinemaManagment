@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace CinemaManager
+namespace CinemaManagerWeb.Models.DTO
 {
-    public class MovieLease
+    public class MovieLeaseDTO
     {
-
         public int ID { get; set; }
 
-        public int MovieId { get; set; }
-
+        [Required]
         public int LengthOfEngagementInWeeks { get; set; }
 
         /// <summary>
         /// Per-week base allowance in cents
         /// </summary>
-
         public int HouseAllowance { get; set; }
 
         /// <summary>
         /// Percent of the gross profit kept by the theater
         /// </summary>
-
         public decimal GrossBoxOfficePercent { get; set; }
 
-        public virtual Movie Movie { get; set; }
+        public MovieDTO Movie { get; set; }
 
-        public virtual List<Cinema> Cinemas { get; set; }
-
+        public List<CinemaDTO> Cinemas { get; set; }
     }
 }

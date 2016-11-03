@@ -23,7 +23,6 @@ namespace CinemaManager.DataAccess
                 new MovieLease()
                 {
                     MovieId = 1,
-                    CinemaId = 1
                 }
             };
             movieLeases.ForEach(l => context.MovieLeases.Add(l));
